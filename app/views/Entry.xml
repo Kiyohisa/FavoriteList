@@ -1,5 +1,5 @@
 <Alloy>
 	<Window id="map" title="現在地" onOpen="showCurrentPosition">
-		<View id="mapView" ns="Alloy.Globals.Map" onClick="report"></View>
+		<View id="mapView" ns="Alloy.Globals.Map" onClick="report" userLocation="true"></View>
 	</Window>
 </Alloy>
