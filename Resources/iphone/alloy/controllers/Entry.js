@@ -3,6 +3,10 @@ function Controller() {
         Ti.API.info("Annotation " + evt.title + " clicked, id: " + evt.annotation.myid);
     }
     function showCurrentPosition() {
+        if (!common.check.geolocationEnabled()) {
+            alert("位置情報サービスはサポートされていないか、利用を許可されていません");
+            return;
+        }
         Ti.Geolocation.accuracy = Ti.Geolocation.ACCURACY_REST;
         Ti.Geolocation.getCurrentPosition(function(e) {
             if (e.error) {
@@ -10,7 +14,7 @@ function Controller() {
                 return;
             }
             alert(e.coords);
-            Alloy.Globals.Map.createAnnotation({
+            var moutainView = Alloy.Globals.Map.createAnnotation({
                 latitude: 37.390749,
                 longitude: -122.081651,
                 title: "Appcelerator Headquarters",
@@ -24,6 +28,7 @@ function Controller() {
                 latitudeDelta: .05,
                 longitudeDelta: .01
             };
+            $.mapView.addAnnotation(moutainView);
         });
     }
     require("alloy/controllers/BaseController").apply(this, Array.prototype.slice.call(arguments));
@@ -49,6 +54,8 @@ function Controller() {
     report ? $.__views.mapView.addEventListener("click", report) : __defers["$.__views.mapView!click!report"] = true;
     exports.destroy = function() {};
     _.extend($, $.__views);
+    var common = {};
+    common = require("common/util");
     $.map.open();
     __defers["$.__views.map!open!showCurrentPosition"] && $.__views.map.addEventListener("open", showCurrentPosition);
     __defers["$.__views.mapView!click!report"] && $.__views.mapView.addEventListener("click", report);

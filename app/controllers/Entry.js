@@ -2,13 +2,16 @@ function report(evt) {
 	Ti.API.info("Annotation " + evt.title + " clicked, id: " +evt.annotation.myid);
 }
 
-//Ti.include('common/util.js');
+var common = {};
+common = require('common/util');
 
 function showCurrentPosition(){
-	// if(!common.util.geolocationEnabled()){
-		// alert("位置情報サービスはサポートされていないか、利用を許可されていません");
-		// return;
-	// }
+//	common.check.alert();
+
+	if(!common.check.geolocationEnabled()){
+		alert("位置情報サービスはサポートされていないか、利用を許可されていません");
+		return;
+	}
 	Ti.Geolocation.accuracy = Ti.Geolocation.ACCURACY_REST;
 	Ti.Geolocation.getCurrentPosition(function(e) {
 		if(e.error){
